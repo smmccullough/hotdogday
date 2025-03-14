@@ -4,8 +4,217 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      html {
+        cursor: url(hotdog.png), auto;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 3rem;
+      }
+
+      .countdown {
+        font-size: 10rem;
+        color: #000;
+        width: 100%;
+        font-weight: 700;
+      }
+
+      .countdown-inner {
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+      }
+
+      .time-container {
+        margin: 0;
+        padding: 0.25rem;
+        width: auto;
+        /* line-height: 1; */
+      }
+
+      .label {
+        font-size: 1rem;
+        /* font-size: clamp(10px, 1vw, 12px); */
+        color: #000;
+        text-align: center;
+      }
+
+      .dvd {
+        width: 100px;
+        height: 50px;
+        /* background-color: white; */
+        color: black;
+        text-align: center;
+        line-height: 50px;
+        font-family: sans-serif;
+        position: absolute;
+      }
+    </style>
   </head>
+
   <body>
-    <h1>Welcome</h1>
+    <div class="container">
+      <h1>Arcellx Hot Dog Day 2025</h1>
+      <!-- countdown -->
+      <div class="countdown">
+        <div class="countdown-container">
+          <div class="countdown-inner">
+            <div id="days" class="time-container">
+              <div class="time-number days_number" id="days_number">&zwnj;</div>
+              <div class="label">DAYS</div>
+            </div>
+            <span>:</span>
+            <div id="hours" class="time-container">
+              <div class="time-number hours_number" id="hours_number">
+                &zwnj;
+              </div>
+              <div class="label">HRS</div>
+            </div>
+            <span>:</span>
+            <div id="minutes" class="time-container">
+              <div class="time-number minutes_number" id="minutes_number">
+                &zwnj;
+              </div>
+              <div class="label">MIN</div>
+            </div>
+            <span>:</span>
+            <div id="seconds" class="time-container">
+              <div class="time-number seconds_number" id="seconds_number">
+                &zwnj;
+              </div>
+              <div class="label">SEC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end countdown -->
+    </div>
+    <div class="dvd"><img src="hotdog.png" /></div>
+    <div class="dvd"><img src="hotdog.png" /></div>
+    <div class="dvd"><img src="hotdog.png" /></div>
+    <div class="dvd"><img src="hotdog.png" /></div>
+    <script>
+      // const dvd = document.getElementById('dvd');
+      let dvd = document.querySelectorAll(".dvd");
+
+      let count = 1;
+      dvd.forEach((elem) => {
+        let x = 0;
+        let y = 0;
+        let dx = 2;
+        let dy = 2;
+        const width = elem.offsetWidth;
+        const height = elem.offsetHeight;
+
+        function animate() {
+          x += dx;
+          y += dy;
+
+          if (x + width > window.innerWidth || x < 0) {
+            dx = -dx;
+            // dvd.style.backgroundColor = getRandomColor();
+          }
+          if (y + height > window.innerHeight || y < 0) {
+            dy = -dy;
+            // dvd.style.backgroundColor = getRandomColor();
+          }
+          elem.style.left = x + "px";
+          elem.style.top = y + "px";
+          requestAnimationFrame(animate);
+        }
+        animate();
+        count++;
+      });
+
+      function getRandomColor() {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    </script>
+    <script>
+      let countdown_date = new Date("July 24, 2025, 12:00:00 GMT-04:00"); // Event date/time
+      let countdown_time = countdown_date.getTime() / 1000; // countdown_date in sec
+
+      //timer classes
+      let daysNum = document.querySelectorAll(".days_number");
+      let hoursNum = document.querySelectorAll(".hours_number");
+      let minsNum = document.querySelectorAll(".minutes_number");
+      let secsNum = document.querySelectorAll(".seconds_number");
+
+      // Set display options for long date format, e.g., Day, Month XX, 20XX
+      let date_display_options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      };
+
+      // Timer function for counting down to live event start time
+      function countdown() {
+        let now = new Date().getTime() / 1000; // get current time in sec
+        let time_left = countdown_time - now; // get difference between countdown_time and now in sec
+        let timer = {
+          days: Math.floor(time_left / 86400), // get number of days from sec
+          hours: Math.floor((time_left % 86400) / 3600), // get number of hours from sec leftover after days
+          minutes: Math.floor((time_left % 3600) / 60), // get number of mins from sec leftover after hours
+          seconds: Math.floor(time_left % 60), // get number of seconds from sec leftover after mins
+        };
+
+        // Check if countdown has reached "0"
+        if (Math.floor(time_left) > 0) {
+          // Add leading zeros to countdown display, if used
+          daysNum.forEach((day) => {
+            day.textContent = timer.days.toString().padStart(2, "0");
+          });
+
+          hoursNum.forEach((hour) => {
+            hour.textContent = timer.hours.toString().padStart(2, "0");
+          });
+
+          minsNum.forEach((min) => {
+            min.textContent = timer.minutes.toString().padStart(2, "0");
+          });
+
+          secsNum.forEach((sec) => {
+            sec.textContent = timer.seconds.toString().padStart(2, "0");
+          });
+        } else {
+          // Zero out countdown display, if used
+          daysNum.forEach((day) => {
+            day.textContent = "00";
+          });
+          hoursNum.forEach((hour) => {
+            hour.textContent = "00";
+          });
+          minsNum.forEach((min) => {
+            min.textContent = "00";
+          });
+          secsNum.forEach((sec) => {
+            sec.textContent = "00";
+          });
+        } // END Check if countdown has reached "0"
+      } // END Timer function for counting down
+
+      // Run countdown once immediately
+      countdown();
+
+      // Then run countdown every second thereafter
+      let clock = setInterval(countdown, 1000);
+    </script>
   </body>
 </html>
