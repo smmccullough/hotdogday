@@ -25,6 +25,7 @@
         text-align: center;
         font-size: 1.75rem;
         font-size: clamp(1.75rem, 6.25vw, 3rem);
+        filter: drop-shadow(0px 0px 5px #8e8e8e);
       }
 
       .countdown {
@@ -33,6 +34,7 @@
         color: #000;
         width: 100%;
         font-weight: 700;
+        filter: drop-shadow(0px 0px 5px #8e8e8e);
       }
 
       .countdown-inner {
@@ -64,6 +66,22 @@
         line-height: 50px;
         font-family: sans-serif;
         position: absolute;
+      }
+
+      /* rain images */
+      body {
+        overflow: hidden; /* Prevent scrollbars */
+        margin: 0;
+      }
+      .falling-image {
+        position: absolute;
+        top: -50px; /* Start above the viewport */
+        animation: fall linear infinite;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(100vh); /* Fall to the bottom of the viewport */
+        }
       }
     </style>
   </head>
@@ -105,51 +123,91 @@
       </div>
       <!-- end countdown -->
     </div>
-    <div class="dvd"><img src="assets/hotdog.png" /></div>
+    <!-- <div class="dvd"><img src="assets/hotdog.png" /></div> -->
     <!-- <div class="dvd"><img src="hotdog.png" /></div>
     <div class="dvd"><img src="hotdog.png" /></div>
     <div class="dvd"><img src="hotdog.png" /></div> -->
     <script>
-      // const dvd = document.getElementById('dvd');
-      let dvd = document.querySelectorAll(".dvd");
+      function startRain(imageSrc, numberOfImages) {
+        const body = document.body;
+        const imageWidth = 75; // Adjust as needed
+        const imageHeight = 50; // Adjust as needed
 
-      let count = 1;
-      dvd.forEach((elem) => {
-        let x = 0;
-        let y = 0;
-        let dx = 2;
-        let dy = 2;
-        const width = elem.offsetWidth;
-        const height = elem.offsetHeight;
+        for (let i = 0; i < numberOfImages; i++) {
+          const img = document.createElement("img");
+          img.src = imageSrc;
+          img.classList.add("falling-image");
+          img.style.left =
+            Math.random() * window.innerWidth - imageWidth + "px";
+          img.style.animationDuration = Math.random() * 5 + 5 + "s"; // Random duration
+          img.style.width = imageWidth + "px";
+          img.style.height = imageHeight + "px";
+          img.style.zIndex = -1; // Place images behind other content
 
-        function animate() {
-          x += dx;
-          y += dy;
+          body.appendChild(img);
 
-          if (x + width > window.innerWidth || x < 0) {
-            dx = -dx;
-            // dvd.style.backgroundColor = getRandomColor();
-          }
-          if (y + height > window.innerHeight || y < 0) {
-            dy = -dy;
-            // dvd.style.backgroundColor = getRandomColor();
-          }
-          elem.style.left = x + "px";
-          elem.style.top = y + "px";
-          requestAnimationFrame(animate);
+          // Remove image after it falls offscreen
+          img.addEventListener("animationiteration", () => {
+            img.remove();
+            // Recreate the image at the top to continue the rain effect
+            const newImg = document.createElement("img");
+            newImg.src = imageSrc;
+            newImg.classList.add("falling-image");
+            newImg.style.left =
+              Math.random() * window.innerWidth - imageWidth + "px";
+            newImg.style.animationDuration = Math.random() * 5 + 5 + "s";
+            newImg.style.width = imageWidth + "px";
+            newImg.style.height = imageHeight + "px";
+            newImg.style.zIndex = -1;
+            body.appendChild(newImg);
+          });
         }
-        animate();
-        count++;
-      });
-
-      function getRandomColor() {
-        const letters = "0123456789ABCDEF";
-        let color = "#";
-        for (let i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
       }
+
+      // Example usage:
+      startRain("assets/hotdog.png", 50); // Replace with your image URL and desired number of images
+    </script>
+    <script>
+      // const dvd = document.getElementById('dvd');
+      // let dvd = document.querySelectorAll(".dvd");
+
+      // let count = 1;
+      // dvd.forEach((elem) => {
+      //   let x = 0;
+      //   let y = 0;
+      //   let dx = 2;
+      //   let dy = 2;
+      //   const width = elem.offsetWidth;
+      //   const height = elem.offsetHeight;
+
+      //   function animate() {
+      //     x += dx;
+      //     y += dy;
+
+      //     if (x + width > window.innerWidth || x < 0) {
+      //       dx = -dx;
+
+      //     }
+      //     if (y + height > window.innerHeight || y < 0) {
+      //       dy = -dy;
+
+      //     }
+      //     elem.style.left = x + "px";
+      //     elem.style.top = y + "px";
+      //     requestAnimationFrame(animate);
+      //   }
+      //   animate();
+      //   count++;
+      // });
+
+      // function getRandomColor() {
+      //   const letters = "0123456789ABCDEF";
+      //   let color = "#";
+      //   for (let i = 0; i < 6; i++) {
+      //     color += letters[Math.floor(Math.random() * 16)];
+      //   }
+      //   return color;
+      // }
     </script>
     <script>
       let countdown_date = new Date("July 24, 2025, 12:00:00 GMT-04:00"); // Event date/time
