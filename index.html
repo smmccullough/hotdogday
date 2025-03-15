@@ -25,7 +25,7 @@
         text-align: center;
         font-size: 1.75rem;
         font-size: clamp(1.75rem, 6.25vw, 3rem);
-        filter: drop-shadow(0px 0px 5px #8e8e8e);
+        filter: drop-shadow(0px 0px 5px #fff);
       }
 
       .countdown {
@@ -34,7 +34,8 @@
         color: #000;
         width: 100%;
         font-weight: 700;
-        filter: drop-shadow(0px 0px 5px #8e8e8e);
+        /* filter: drop-shadow(0px 0px 5px #8e8e8e); */
+        filter: drop-shadow(0px 0px 5px #fff);
       }
 
       .countdown-inner {
@@ -83,10 +84,64 @@
           transform: translateY(100vh); /* Fall to the bottom of the viewport */
         }
       }
+
+      .eyebrow {
+        background-color: #201853;
+        color: #fff;
+        padding: 0.5rem;
+        font-weight: 700;
+      }
+
+      .eyebrow-copy {
+        font-size: 1.25rem;
+        position: relative;
+        animation: scroll 30s linear infinite;
+        white-space: nowrap;
+        display: flex;
+        gap: 3rem;
+      }
+
+      .quote::before {
+        content: "🌭 ";
+      }
+
+      @keyframes scroll {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-250%);
+        }
+      }
     </style>
   </head>
 
   <body>
+    <div class="eyebrow">
+      <div class="eyebrow-copy">
+        <div class="quote">
+          "Hot Dog Day isn't just a day; it's a celebration of everything I
+          love—mustard, relish, and that perfect bun-to-sausage ratio!" - Egg 1
+        </div>
+        <div class="quote">
+          "On Hot Dog Day, I feel like the world is my picnic, and every bite is
+          a little piece of heaven wrapped in a bun." - Egg 2
+        </div>
+        <div class="quote">
+          "Hot Dog Day? More like my favorite holiday of the year. There's
+          nothing like the joy of a perfectly grilled dog with all the
+          toppings!" - Egg 3
+        </div>
+        <div class="quote">
+          "The only thing better than a hot dog is two hot dogs. Hot Dog Day
+          should be every day!" - Egg 4
+        </div>
+        <div class="quote">
+          "When Hot Dog Day rolls around, I can't help but think, 'This is what
+          pure happiness tastes like.'" - Egg 5
+        </div>
+      </div>
+    </div>
     <div class="container">
       <h1>Arcellx Hot Dog Day 2025</h1>
       <!-- countdown -->
